@@ -68,10 +68,7 @@ calendarGrid.addEventListener("click", (e) => {
     selectedYear = currYear;
     updateDailySummaryUI()
     loadAssetData();
-    if(cnt > 1)
-        loadPrevBtn.hidden = true;
-    else 
-        loadPrevBtn.hidden = false;
+    
 });
 
 // 이전 달 버튼 클릭

@@ -57,7 +57,7 @@ function updatePieChart() {
         activeColors.push(color); 
     });
 
-    const totalAmountDisplay = document.querySelector('.total-amount h2');
+    const totalAmountDisplay = document.querySelector('.daily-summary h2');
     if (totalAmountDisplay) {
         totalAmountDisplay.innerText = totalAsset.toLocaleString() + '원';
     }

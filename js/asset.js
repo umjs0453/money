@@ -1,10 +1,11 @@
 //asset
-let assetTableLength = 1;
-
+let cnt = 1;
+const summaryTime = document.querySelector('.daily-summary span');
+const loadPrevBtn = document.querySelector('.load-prev-btn');
 
 // 2. 자산 추가 기능
 document.querySelector('.add-btn').addEventListener('click', () => {
-    const assetName = assetTableLength++;
+    const assetName = cnt;
     const tbody = document.querySelector('.asset-table tbody');
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -13,7 +14,8 @@ document.querySelector('.add-btn').addEventListener('click', () => {
         <td><button class="delete-btn">X</button></td>
     `;
     tbody.appendChild(tr);
-
+    loadPrevBtn.hidden = true;
+    cnt++;
     // 테이블이 변경되었으므로 차트 갱신
     updatePieChart();
 });
@@ -78,18 +80,15 @@ assetTbody.addEventListener('dblclick', (e) => {
 document.querySelector('.asset-table tbody').addEventListener('click', (e) => {
     // 클릭한 요소가 delete-btn 클래스를 가지고 있는지 확인
     if (e.target.classList.contains('delete-btn')) {
-        // if(confirm("정말 이 자산을 삭제하시겠습니까?")) {
-            // 클릭된 버튼의 부모(td)의 부모(tr)를 찾아 삭제
-            e.target.closest('tr').remove();
-            
-            // 테이블이 변경되었으므로 차트 갱신
-
-            saveAssetData()
-        // }
+        e.target.closest('tr').remove();
+        cnt--;
+        saveAssetData()
     }
 });
 
 // --- 날짜별 데이터 저장소 (localStorage) 로직 ---
+
+    
 
 // 1. 현재 선택된 날짜를 'YYYY-MM-DD' 형태의 텍스트 키로 만드는 함수
 function getSelectedDateKey() {
@@ -98,12 +97,25 @@ function getSelectedDateKey() {
     const d = String(selectedDay).padStart(2, '0');
     return `${selectedYear}-${m}-${d}`;
 }
+function getUpdatedDate()
+{
+    const now = new Date();//저장 시간
+    const y = String(now.getFullYear());
+    const m = String(now.getMonth()).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    return `${y}. ${m}. ${d}. ${hour}:${min}`;
 
+}
 // 2. 현재 테이블의 데이터를 통째로 저장하는 함수
 function saveAssetData() {
     const tableRows = document.querySelectorAll('.asset-table tbody tr');
     const dayData = [];
     let dailyTotal = 0; // ★ 총액 계산용 변수 추가
+    
+    
+    summaryTime.innerText = `${getUpdatedDate()} 갱신`;
 
     tableRows.forEach(row => {
         const typeCell = row.cells[0];
@@ -120,10 +132,13 @@ function saveAssetData() {
     // ★ 핵심: 배열만 덜렁 저장하지 않고, total과 items를 묶은 '객체' 형태로 저장!
     const dataToSave = {
         total: dailyTotal,
-        items: dayData
+        assetTableLength: cnt-1,
+        items: dayData,
+        updatedDate: getUpdatedDate()
     };
     
     localStorage.setItem(dateKey, JSON.stringify(dataToSave));
+    updateMonthlyChart();
     updatePieChart();
 }
 
@@ -134,14 +149,15 @@ function loadAssetData() {
     const savedData = localStorage.getItem(dateKey);
     const tbody = document.querySelector('.asset-table tbody');
     
+    
+
     // 일단 테이블 싹 비우기 (안 비우면 이전 날짜 데이터랑 겹침)
     tbody.innerHTML = '';   
-
+    
     if (savedData) {
         const parsedData = JSON.parse(savedData);
         // 저장된 데이터가 있으면 테이블에 행 쫙 추가
         const savedItems = parsedData.items || [];
-
         savedItems.forEach(item => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -151,13 +167,25 @@ function loadAssetData() {
             `;
             tbody.appendChild(tr);
         });
-        // 다음 추가될 자산 번호 업데이트 (겹치지 않게 기존 개수 + 1)
-        assetTableLength = parsedData.length + 1; 
+        
+        summaryTime.innerText = `${parsedData.updatedDate} 갱신`;
+        cnt = parsedData.assetTableLength + 1; 
+        if(cnt > 1)
+            loadPrevBtn.hidden = true;
+        else 
+            loadPrevBtn.hidden = false;
+    
     } else {
         // 저장된 데이터가 없으면 초기화
-        assetTableLength = 1;
+        summaryTime.innerText = `기록되지 않음`;
+        cnt = 1;
     }
 
     // 테이블 갱신됐으니 파이 차트도 새롭게 그려줌
     updatePieChart();
+}
+
+function loadPrev(){
+    const dateKey = getSelectedDateKey();
+    const savedData = localStorage.getItem(dateKey);
 }

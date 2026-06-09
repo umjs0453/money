@@ -7,8 +7,10 @@
     <!--<style>@import url(../css/style.css);</style>-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="js/asset.js" defer></script>
+    <script src="js/barChart.js" defer></script>
     <script src="js/calender.js" defer></script>
     <script src="js/pieChart.js" defer></script>
+    
     <link rel="stylesheet" href="css/style.css">
     
     
@@ -32,17 +34,9 @@
             <div class="box daily-summary">
                 <div>
                     <strong>00월 00일</strong><br>
-                    <span style="font-size: 12px;">00시 00분 갱신</span>
+                    <h2>000,000,000원</h2>
+                    <span style="font-size: 12px;">0000. 00. 00 00:00 갱신</span>
                 </div>
-                <!--<div class="mini-chart">
-                    📈<br>
-                    <span style="font-size: 12px; color: #333;">5일간 00.0% 증가</span>
-                </div>-->
-            </div>
-            
-            <div class="box total-amount">
-                <h2>000,000,000원</h2>
-                <p>+000,000원</p>
             </div>
 
             <div class="box pie-chart">
@@ -78,7 +72,7 @@
                 </tbody>
             </table>
             
-            <button class="add-btn" >+</button>
+            <button class="add-btn" >+</button> <button class="load-prev-btn", hidden>어제 기록 불러오기</button>
         </aside>
 
         <main class="right-panel">
@@ -87,9 +81,8 @@
                 <span id="monthYear">yyyy년 mm월</span>
                 <span id="nextMonth" style="cursor: pointer;">&gt;</span>
             </div>
-
             <div class="box main-chart">
-                [ 월간 자산 총액 차트 영역 ]
+                <canvas id="monthlyLineChart"></canvas>
             </div>
 
             <div class="calendar-wrapper">

@@ -120,6 +120,12 @@ body {
     background: #fff;
     cursor: pointer;
 }
+.load-prev-btn {
+    padding: 8px 12px;
+    border: 1px solid #333;
+    background: #fff;
+    cursor: pointer;
+}
 
 /* 우측 패널: 연/월 선택, 차트, 캘린더 */
 .month-selector {
@@ -131,7 +137,7 @@ body {
     font-weight: bold;
 }
 .main-chart {
-    height: 200px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -39,10 +39,13 @@ const renderCalendar = () => {
 
     monthYearDisplay.innerText = `${currYear}년 ${currMonth + 1}월`;
     calendarGrid.innerHTML = divTag;
+
+    updateMonthlyChart();
 }
 
 // 초기 달력 렌더링 (이제 처음 켜지자마자 오늘 날짜에 노란 배경 + 검은 동그라미가 쳐집니다)
 renderCalendar();
+updateDailySummaryUI()
 
 // 달력 날짜 클릭 이벤트
 calendarGrid.addEventListener("click", (e) => {
@@ -63,7 +66,12 @@ calendarGrid.addEventListener("click", (e) => {
     selectedDay = parseInt(clickedCell.querySelector("span").innerText, 10);
     selectedMonth = currMonth;
     selectedYear = currYear;
+    updateDailySummaryUI()
     loadAssetData();
+    if(cnt > 1)
+        loadPrevBtn.hidden = true;
+    else 
+        loadPrevBtn.hidden = false;
 });
 
 // 이전 달 버튼 클릭
@@ -85,3 +93,18 @@ nextBtn.addEventListener("click", () => {
     }
     renderCalendar();
 });
+
+// --- 요약 박스(daily-summary) UI 업데이트 ---
+
+function updateDailySummaryUI() {
+    // 1. 월, 일 두 자리로 맞추기 (예: 6월 9일 -> 06월 09일)
+    const m = String(selectedMonth + 1).padStart(2, '0');
+    const d = String(selectedDay).padStart(2, '0');
+    
+    // 2. 화면의 strong 태그(날짜) 찾아서 텍스트 덮어쓰기
+    const summaryDate = document.querySelector('.daily-summary strong');
+    if (summaryDate) {
+        summaryDate.innerText = `${m}월 ${d}일`;
+    }
+}
+

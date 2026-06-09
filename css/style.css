@@ -1,0 +1,226 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+}
+body {
+    font-family: 'Malgun Gothic', sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+.dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 2px solid #333;
+        }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 2px solid #333;
+}
+.logo-box {
+    border: 1px solid #333;
+    padding: 5px 15px;
+    font-weight: bold;
+    
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-id-box {
+    border: 1px solid #333;
+    padding: 5px 15px;
+}
+
+/* 메인 콘텐츠 영역 (2단 레이아웃) */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* 좌측 1 : 우측 2 비율 */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 공통 박스 스타일 */
+.box {
+    border: 1px solid #333;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+/* 좌측 패널: 선택일자 정보 */
+.left-panel .daily-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* .pie-chart-box {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fcfcfc;
+} */
+
+#assetPieChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.mini-chart {
+    color: #d9534f;
+    font-weight: bold;
+    text-align: right;
+}
+.total-amount {
+    text-align: left;
+}
+.total-amount h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.total-amount p {
+    font-size: 14px;
+}
+
+/* 자산 유형 테이블 */
+.asset-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+.asset-table th, .asset-table td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+}
+.asset-table td:nth-child(2) {
+    text-align: right;
+}
+.delete-btn {
+    background-color: transparent;
+    color: #d9534f;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+}
+.delete-btn:hover {
+    color: #c9302c;
+    transform: scale(1.2);
+}
+.add-btn {
+    padding: 8px 12px;
+    border: 1px solid #333;
+    background: #fff;
+    cursor: pointer;
+}
+.load-prev-btn {
+    padding: 8px 12px;
+    border: 1px solid #333;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* 우측 패널: 연/월 선택, 차트, 캘린더 */
+.month-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.main-chart {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    background-color: #fcfcfc;
+}
+/* 캘린더 요일 헤더 */
+.calendar-wrapper {
+    border: 1px solid #333;
+}
+.weeks {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    list-style: none;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+    background-color: #f0f0f0;
+}
+.weeks li:first-child { color: #d9534f; } /* 일요일 빨간색 */
+.weeks li:last-child { color: #5888d1; } /* 토요일 파란색 */
+
+/* 캘린더 날짜 그리드 */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 60px;
+}
+.calendar-cell {
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    position: relative;
+
+    /* ★ 정렬 핵심: 부모 셀 자체를 한가운데 정렬(Flex박스)로 설정 */
+    display: flex;
+    justify-content: center; /* 가로 가운데 */
+    align-items: center;     /* 세로 가운데 (이전의 padding-top은 제거) */
+}
+
+/* 오늘 날짜 (꽉 찬 배경색 유지) */
+.calendar-cell.active {
+    background-color: #ffe9a0;
+    color: #333 !important;
+    font-weight: bold;
+}
+
+/* ★ 추가: 선택된 날짜 (동그라미 스타일) - 정렬 코드 수정 */
+.calendar-cell.selected::after {
+    content: '';
+    position: absolute;
+    
+    /* ★ 핵심: 절대 위치 정렬 공식 (상하좌우 50% 후 50%만큼 다시 빼주기) */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 정확히 정중앙에 배치 */
+    
+    width: 30px;  /* 숫자에 맞게 크기 조절 */
+    height: 30px;
+    background-color: #333;
+    border-radius: 50%;
+    z-index: 1;
+}
+/* 2. 토요일 색 설정 (7열 중 1번째 칸들) */
+.calendar-cell:nth-child(7n+1) { 
+    color: #d9534f; 
+} 
+.calendar-cell:nth-child(7n) { 
+    color: #3498db; 
+} 
+
+.calendar-cell.inactive {
+    color: #686868 !important;
+}
+
+/* 4. [체크] 선택된 날짜*/
+.calendar-cell.selected {
+     color: #fff !important;
+    font-weight: bold; /* 가독성을 위해 추가 */
+}
+/* 실제 숫자가 표시되는 span 레이어를 동그라미 위로 올림 */
+.calendar-cell.selected span {
+    position: relative;
+    z-index: 2;
+}

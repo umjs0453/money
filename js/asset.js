@@ -3,7 +3,6 @@ let cnt = 1;
 const summaryTime = document.querySelector('.daily-summary span');
 const loadPrevBtn = document.querySelector('.load-prev-btn');
 
-// 2. 자산 추가 기능
 document.querySelector('.add-btn').addEventListener('click', () => {
     const assetName = cnt;
     const tbody = document.querySelector('.asset-table tbody');
@@ -16,7 +15,6 @@ document.querySelector('.add-btn').addEventListener('click', () => {
     tbody.appendChild(tr);
     loadPrevBtn.hidden = true;
     cnt++;
-    // 테이블이 변경되었으므로 차트 갱신
     updatePieChart();
 });
 
@@ -76,7 +74,7 @@ assetTbody.addEventListener('dblclick', (e) => {
     input.addEventListener('blur', saveEdit);
 });
 
-// 3. 자산 삭제 기능 (이벤트 위임 방식 사용)
+//자산 삭제 기능 (이벤트 위임 방식 사용)
 document.querySelector('.asset-table tbody').addEventListener('click', (e) => {
     // 클릭한 요소가 delete-btn 클래스를 가지고 있는지 확인
     if (e.target.classList.contains('delete-btn')) {
@@ -97,6 +95,7 @@ function getSelectedDateKey() {
     const d = String(selectedDay).padStart(2, '0');
     return `${selectedYear}-${m}-${d}`;
 }
+//갱신 시간 출력
 function getUpdatedDate()
 {
     const now = new Date();//저장 시간
@@ -108,7 +107,7 @@ function getUpdatedDate()
     return `${y}. ${m}. ${d}. ${hour}:${min}`;
 
 }
-// 2. 현재 테이블의 데이터를 통째로 저장하는 함수
+//현재 테이블의 데이터를 통째로 저장
 function saveAssetData() {
     const tableRows = document.querySelectorAll('.asset-table tbody tr');
     const dayData = [];

@@ -38,35 +38,24 @@ body {
     padding: 5px 15px;
 }
 
-/* 메인 콘텐츠 영역 (2단 레이아웃) */
 .main-content {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* 좌측 1 : 우측 2 비율 */
+    grid-template-columns: 1fr 2fr;
     gap: 20px;
     padding: 20px;
 }
 
-/* 공통 박스 스타일 */
 .box {
     border: 1px solid #333;
     padding: 15px;
     margin-bottom: 15px;
 }
 
-/* 좌측 패널: 선택일자 정보 */
 .left-panel .daily-summary {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-/* .pie-chart-box {
-    height: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fcfcfc;
-} */
-
 #assetPieChart {
     width: 100% !important;
     height: 100% !important;
@@ -88,7 +77,6 @@ body {
     font-size: 14px;
 }
 
-/* 자산 유형 테이블 */
 .asset-table {
     width: 100%;
     border-collapse: collapse;

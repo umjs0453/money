@@ -4,12 +4,12 @@ const calendarGrid = document.getElementById("calendarGrid");
 const prevBtn = document.getElementById("prevMonth");
 const nextBtn = document.getElementById("nextMonth");
 
-// 1. 기준이 되는 날짜 객체 (달력 이동용)
+// 기준이 되는 날짜 객체 (달력 이동용)
 let date = new Date();
 let currYear = date.getFullYear();
 let currMonth = date.getMonth();
 
-// ★ 추가: 실제 선택된 날짜를 기억할 변수 (처음에는 '오늘'로 초기화)
+//선택된 날짜를 기억할 변수
 let selectedYear = currYear;
 let selectedMonth = currMonth;
 let selectedDay = date.getDate();
@@ -21,12 +21,12 @@ const renderCalendar = () => {
 
     let divTag = "";
 
-    // 이전 달의 날짜 채우기
+    // 전월 날짜
     for (let i = firstDayOfMonth; i > 0; i--) {
         divTag += `<div class="calendar-cell inactive"><span>${lastDayOfLastMonth - i + 1}</span></div>`;
     }
 
-    // 현재 월의 날짜 채우기
+    // 현월 날짜
     for (let i = 1; i <= lastDateOfMonth; i++) {
         // [오늘 날짜 확인] 칸 전체를 연노랑으로 채우기 위함
         let isToday = i === new Date().getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? " active" : "";
@@ -91,8 +91,7 @@ nextBtn.addEventListener("click", () => {
     renderCalendar();
 });
 
-// --- 요약 박스(daily-summary) UI 업데이트 ---
-
+//daily-summary 업데이트 
 function updateDailySummaryUI() {
     // 1. 월, 일 두 자리로 맞추기 (예: 6월 9일 -> 06월 09일)
     const m = String(selectedMonth + 1).padStart(2, '0');
